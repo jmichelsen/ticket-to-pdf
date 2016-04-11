@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div class="container">
+      <header>
+        <h2>
+          AGORA SOCIAL LTD.
+        </h2>
+        <h6>
+          Thank you for purchasing a ticket on Agora. This is your ticket, please present it at the event.
+        </h6>
+      </header>
+      <section>
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6">
+                <h2>{{ ticket.event_title }}</h2>
+                <address style="margin-bottom: 0px;">{{ ticket.event_city }}</address>
+                <time>{{ ticket.event_date }}</time>
+              </div>
+            </div>
+            <div class="row spacer"></div>
+            <div class="row">
+              <div class="col-lg-6">
+                <h2>{{ ticket.buyer.full_name }}</h2>
+                <p>{{ ticket.buyer.email }}<br />
+                  {% if ticket.ticket_type == '1' %}Standard{% else %}VIP{% endif %} {{ ticket.total_price }}<br />
+                  {{ ticket.ticket_details }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div id="qr-code" data-value="{{ ticket.qr_code }}"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <a class="btn btn-primary" href="{% url "tickets:pdf_detail" pk=ticket.pk %}">Printable PDF</a>
+{% endblock %}
+
+{% block js_page %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var $qrCode = $('#qr-code'),
+          qrValue = $qrCode.data('value');
+
+      $qrCode.qrcode(qrValue);
+    })
+  </script>
+{% endblock %}

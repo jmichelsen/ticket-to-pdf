@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="list-group">
+    {% for object in object_list %}
+      <a class="list-group-item" href="{% url "tickets:detail" pk=object.pk %}">
+        {{ object.event_title }}: {{ object.total_price }} (Sold to {{ object.buyer.full_name }} from {{ object.seller.full_name }})
+      </a>
+    {% empty %}
+      <div class="jumbotron">
+        <div class="container">
+          <h2>No tickets have been created. Create one <a href="{% url "tickets:create" %}">here</a></h2>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <a class="btn btn-primary" href="{% url "tickets:create_ticket" %}">Create Ticket</a>
+  <a class="btn btn-primary" href="{% url "tickets:create_seller" %}">Create Seller</a>
+  <a class="btn btn-primary" href="{% url "tickets:create_buyer" %}">Create Buyer</a>
+{% endblock %}
